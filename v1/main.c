@@ -12,7 +12,15 @@
 int main(){
     srand(time(NULL));
 
-    lan lan;
+    lan l;
+    generer_complet(&l, 5);
+
+    //affichage
+    affichage(&l);
+
+
+
+    
     
 
 

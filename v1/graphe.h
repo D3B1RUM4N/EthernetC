@@ -3,33 +3,49 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef size_t sommet;
+typedef size_t appareil;
 
-typedef struct arete
+//type pour ip
+typedef unsigned char ipv4[4];
+//type pour mac
+typedef char addMac[6];
+
+
+
+typedef struct cable
 {
-    sommet s1;
-    sommet s2;
-} arete;
+    appareil s1;
+    appareil s2;
+    size_t poid;
+} cable;
 
-typedef struct graphe
+
+typedef struct lan{
+    cable *cables;
+    size_t nb_cables;
+    size_t lan_capacite;
+}
+
+
+typedef struct appareil{
+    size_t type;            //1 pour station, 2 pour switche
+    switche sw;
+    station st;
+    addMac mac;
+}appareil;
+
+
+typedef struct switche
 {
-    size_t ordre;
-    int aretes_capacite;
-    arete aretes[aretes_capacite];
-    int nb_aretes;
-} graphe;
+    size_t switch_capacite;
+    size_t id;
+    cable *commutation;
+} switche;
 
-static const size_t UNKNOWN_INDEX = -1;
+typedef struct station
+{
+    ipv4 ip;
+}station;
 
-void init_graphe(graphe *g);
-void free_graphe(graphe *g);
+void init_lan(lan *l);
 
-size_t ordre(graphe const *g);
-size_t nb_aretes(graphe const *g);
-
-void ajouter_sommet(graphe *g);
-bool existe_arete(graphe const *g, arete a);
-bool ajouter_arete(graphe *g, arete a);
-size_t index_arete(graphe const *g, arete a);
-
-size_t sommets_adjacents(graphe const *g, sommet s, sommet sa[]);

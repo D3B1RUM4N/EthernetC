@@ -28,7 +28,7 @@ void afficher(lan const *l)
 {
     printf("%zu %zu\n", l->nb_appareils, l->nb_cables);
     for(size_t i = 0; i<l->nb_cables; i++){
-        if(l->cables[i].s1.type == 2){
+        if(l->cables[i].a1.type == 2){
             printf("un swiiitch \n");
         }
     }
@@ -40,14 +40,35 @@ void afficher(lan const *l)
 //que pour des switchs
 void generer_complet(lan *l, size_t ordre)
 {
-    init_graphe(l);
-    for(size_t i = 0; i<ordre; i++){
+    init_lan(l);
+    for(size_t x = 0; x<ordre; x++){
         ajouter_switch(l);
     }
-    for(switche i = 0; i<ordre; i++){
-        for(switche j = 0; j<ordre; j++){
+    for(size_t i = 0; i<ordre; i++){
+        for(size_t j = 0; j<ordre; j++){
             if(i != j){
-                ajouter_cable(g, (cable){i,j});
+                ajouter_cable(l, (cable){
+                    .a1 = {
+                        .type = 2,
+                        .st = NULL,
+                        .mac = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},
+                        .sw = {
+                            .id = i,
+                            .switch_capacite = 8,
+                            //.commutation = malloc(a1.sw.switch_capacite * sizeof(cable))
+                        }
+                    },
+                    .a2 = {
+                        .type = 2,
+                        .st = NULL,
+                        .mac = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},
+                        .sw = {
+                            .id = j,
+                            .switch_capacite = 8,
+                            //.commutation = malloc(a2.sw.switch_capacite * sizeof(cable))
+                        }
+                    }
+                });
             }
         }
     }

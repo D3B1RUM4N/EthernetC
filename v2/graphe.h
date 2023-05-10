@@ -3,14 +3,19 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef unsigned char station[4];
-//type pour mac
-typedef char addMac[6];
 
 
 
 
-typedef size_t sommet;      //correspondra 
+
+
+//typedef size_t sommet;      //je sais pas encore comment je vais faire on verra
+
+typedef struct sommet
+{
+    char type;          //1 pour station, 2 pour switch
+    size_t index;          //l'index de l'appareil dans le tableau de sont type
+}sommet;
 
 
 typedef struct arete
@@ -29,6 +34,12 @@ typedef struct graphe
 
 
 
+
+//type pour mac
+typedef char addMac[6];
+//station
+typedef unsigned char station[4];
+
 typedef struct switche
 {
     size_t switch_capacite;
@@ -36,13 +47,14 @@ typedef struct switche
     //cable *commutation;
 } switche;
 
-typedef struct appareil{
-    sommet i;               //pour la table de commutation
-    size_t type;            //1 pour station, 2 pour switche
-    switche sw;
-    station st;
-    addMac mac;
-}appareil;
+typedef struct lan
+{
+    station *stations;
+    switche *switches;
+    graphe *g;
+    arete *appareils;
+}
+
 
 
 

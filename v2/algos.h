@@ -3,7 +3,7 @@
 #include "graphe.h"
 #include <stdint.h>
 
-size_t degre(graphe const *g, sommet s);
+size_t degre(graphe const *g, size_t s);
 bool est_regulier(graphe const *g);
 
 void afficher(graphe const *g);

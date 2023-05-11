@@ -1,5 +1,6 @@
 #include "graphe.h"
 #include "algos.h"
+#include "lan.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,19 +9,10 @@
 
 int main()
 {
-    srand(time(NULL));
+    //partie graphe
+    lan l;
+    init_lan(&l);
 
-    graphe g;
-    generer_complet(&g, 5);
-    
-    printf("ordre = %zu\n",ordre(&g));
-    //free_graphe(&g);
-
-    printf("AFFICHER GRAPHE\n");
-    printf("===============\n");
-    afficher(&g);
-
-    free_graphe(&g);
 
     return EXIT_SUCCESS;
 }

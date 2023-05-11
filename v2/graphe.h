@@ -15,6 +15,7 @@ typedef struct sommet
 {
     char type;          //1 pour station, 2 pour switch
     size_t index;          //l'index de l'appareil dans le tableau de sont type
+    size_t id;
 }sommet;
 
 
@@ -50,10 +51,21 @@ typedef struct switche
 typedef struct lan
 {
     station *stations;
+    size_t nb_stations;
     switche *switches;
-    graphe *g;
-    arete *appareils;
-}
+    size_t nb_switches;
+
+    sommet *appareils;
+    size_t nb_appareils;
+
+    size_t stations_capacite;
+    size_t switches_capacite;
+    size_t appareils_capacite;
+
+
+    graphe g; 
+    
+}lan;
 
 
 
@@ -73,7 +85,7 @@ void free_graphe(graphe *g);
 size_t ordre(graphe const *g);
 size_t nb_aretes(graphe const *g);
 
-void ajouter_sommet(graphe *g);
+int ajouter_sommet(graphe *g);
 bool existe_arete(graphe const *g, arete a);
 bool ajouter_arete(graphe *g, arete a);
 size_t index_arete(graphe const *g, arete a);

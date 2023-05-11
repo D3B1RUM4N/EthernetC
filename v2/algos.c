@@ -6,13 +6,18 @@
 #include <float.h>
 #include <string.h>
 
-size_t degre(graphe const *g, sommet s)
+size_t degre(graphe const *g, size_t n)
 {
+    sommet s = {
+        .id = n,
+        .index = 0,
+        .type = 0
+    };
     int nDeg = 0;
     for(int j = 0; j<g->nb_aretes; j++){
-        s = g->aretes[j].s1;
+        //s = g->aretes[j].s1;
         for(int k = 0; k<g->nb_aretes; k++){
-            if(s == g->aretes[k].s1 || s == g->aretes[k].s2){
+            if(s.id == g->aretes[k].s1.id || s.id == g->aretes[k].s2.id){
                 nDeg ++;
             }
         }
@@ -30,25 +35,25 @@ void afficher(graphe const *g)
     printf("# sommets = %zu\n",ordre(g));
     printf("# arretes = %zu\n", nb_aretes(g));
     printf("--SOMMETS--\n");
-    for(sommet s = 0; s<g->ordre; s++){
+    for(size_t s = 0; s<g->ordre; s++){
         printf("%zu (degre : %zu)\n", s, degre(g, s));
     }
 }
 
-void generer_complet(graphe *g, size_t ordre)
+/*void generer_complet(graphe *g, size_t ordre)
 {
     init_graphe(g);
     for(size_t i = 0; i<ordre; i++){
         ajouter_sommet(g);
     }
-    for(sommet i = 0; i<ordre; i++){
-        for(sommet j = 0; j<ordre; j++){
-            if(i != j){
+    for(sommet i->id = 0; i.id<ordre; i->id++){
+        for(sommet j->id = 0; j->id<ordre; j->id++){
+            if(i->id != j->id){
                 ajouter_arete(g, (arete){i,j});
-            }s
+            }
         }
     }
-}
+}*/
 
 void visite_composante_connexe(graphe const *g, sommet s, bool *visite)
 {

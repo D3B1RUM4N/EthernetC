@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 
-int main()
+int main_graphe()
 {
     srand(time(NULL));
 

@@ -41,15 +41,24 @@ typedef struct graphe
 //type pour mac
 typedef char addMac[6];
 //station
-typedef char station[15];
+typedef struct station{
+    char ip[15];
+    addMac mac;
+}station;
 
 typedef struct switche
 {
-    //size_t switch_capacite;
+    size_t nb_ports;
     size_t id;
     addMac mac;
     //cable *commutation;
 } switche;
+
+typedef struct cable
+{
+    size_t poid;
+    arete arete;
+}cable;
 
 typedef struct lan
 {
@@ -61,9 +70,13 @@ typedef struct lan
     appareil *appareils;
     size_t nb_appareils;
 
+    cable *cables;
+    size_t nb_cables;
+
     size_t stations_capacite;
     size_t switches_capacite;
     size_t appareils_capacite;
+    size_t cables_capacite;
 
 
     graphe g; 

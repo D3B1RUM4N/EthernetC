@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "graphe.h"
 #include "algos.h"
 #include "lan.h"
@@ -7,61 +8,53 @@
 #include <string.h>
 #include <time.h>
 
+
+#define TAILLE_MAX 1000
+
 int main()
 {
-    //partie graphe
-    lan l;
-    printf("init lan\n");
-    init_lan(&l);
+	FILE* file = fopen("../texte.txt", "r");
+	char chaine[TAILLE_MAX] = ""; //un tableau de taille 1000
+	if(file != NULL)
+	{
+		printf("le fichier est ouvert\n");
+		printf("lecture par chaine\n");
 
-    switche sw1;
-    switche sw2;
-
-    //sw1
-        sw1.id = l.nb_switches;
-        sw1.nb_ports = 8;
-            sw1.mac[0] = 0x00;
-            sw1.mac[1] = 0x00;
-            sw1.mac[2] = 0x00;
-            sw1.mac[3] = 0x00;
-            sw1.mac[4] = 0x00;
-            sw1.mac[5] = 0x01;
-
-        ajouter_switch(&l, sw1);
-
-    //sw2
-        sw2.id = l.nb_switches;
-        sw2.nb_ports = 8;
-            sw2.mac[0] = 0x00;
-            sw2.mac[1] = 0x00;
-            sw2.mac[2] = 0x00;
-            sw2.mac[3] = 0x00;
-            sw2.mac[4] = 0x00;
-            sw2.mac[5] = 0x02;
-        ajouter_switch(&l, sw2);
-
-    ajouter_lien(&l,0 , 1, 0);
-
-    //st1
-    station st1;
-    strcpy(st1.ip, "192.168.1.34");
-    st1.mac[0] = 0x00;
-        st1.mac[1] = 0x00;
-        st1.mac[2] = 0x00;
-        st1.mac[3] = 0x00;
-        st1.mac[4] = 0x00;
-        st1.mac[5] = 0x03;
-    ajouter_station(&l, st1);
+		//initialisation du graphe et de la lan
+		//partie graphe
+		lan l;
+		printf("init lan\n");
+		init_lan(&l);
 
 
-    ajouter_lien(&l, 0, 2, 5);
-    ajouter_lien(&l, 1, 2, 2);
+		size_t cpt = 0;
 
+		while(fgets(chaine, TAILLE_MAX, file) != NULL)
+		{
+			//printf("%s", chaine);
+			if(cpt != 0){
+				if(chaine[0] == '2'){
+					printf("switch\n");
+					switche sw;
+					
 
-    afficher(&l.g);
+				}else if(chaine[0] == '1'){
+					printf("station\n");
+				}else{
+					printf("cable\n");
+				}
+			}
 
-    afficher_lan(&l);
+			cpt++;
+		}
 
-    return EXIT_SUCCESS;
+		fclose(file);
+	}
+
+	else
+	{
+		printf("votre fichier n'est pas accesible, ou inexistant.\n");
+		fclose(file);
+	}
+	return 0;
 }
-

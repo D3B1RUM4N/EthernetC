@@ -15,7 +15,7 @@ typedef struct appareil
 {
     char type;          //1 pour station, 2 pour switch
     size_t index;          //l'index de l'appareil dans le tableau de sont type
-    size_t id;
+    size_t id;          //l'id de l'appareil dans le graphe
 }appareil;
 
 typedef size_t sommet;
@@ -41,7 +41,7 @@ typedef struct graphe
 //type pour mac
 typedef char addMac[6];
 //station
-typedef unsigned char station[4];
+typedef char station[15];
 
 typedef struct switche
 {

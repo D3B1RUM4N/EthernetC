@@ -27,11 +27,23 @@ bool est_regulier(graphe const *g)
 
 void afficher(graphe const *g)
 {
+    printf("AFFICHE GRAPHE\n");
     printf("# sommets = %zu\n",ordre(g));
     printf("# arretes = %zu\n", nb_aretes(g));
+    printf("===============\n");
     printf("--SOMMETS--\n");
-    for(sommet s = 0; s<g->ordre; s++){
-        printf("%zu (degre : %zu)\n", s, degre(g, s));
+    for(size_t i=0;i<ordre(g);i++){
+        printf("%zu (degre : %zu) <-> ",i,degre(g,i));
+        for(size_t c = 0;c<nb_aretes(g);c++){
+            if(sont_connectes(g,i,c)){
+                printf("%zu ",c);
+            }
+        }
+        printf("\n");
+    }
+    printf("--ARETES--\n");
+    for(size_t i=0;i<g->nb_aretes;i++){
+        printf("%zu : %zu - %zu\n",i,g->aretes[i].s1,g->aretes[i].s2);
     }
 }
 

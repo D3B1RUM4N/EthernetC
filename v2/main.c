@@ -38,9 +38,15 @@ int main()
             sw2.mac[5] = 0x02;
         ajouter_switch(&l, sw2);
 
-    //ajouter_arete(&l.g, 0, 1, 1);
-    //afficher(&l.g);
+    ajouter_lien(&l,0 , 1);
 
+    //st1
+    ajouter_station(&l, "192.168.1.34");
+    ajouter_lien(&l,0, 2 );
+    ajouter_lien(&l, 1, 2);
+
+
+    afficher(&l.g);
 
     return EXIT_SUCCESS;
 }

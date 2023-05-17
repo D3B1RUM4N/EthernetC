@@ -1,4 +1,5 @@
 #include "graphe.h"
+#include <stdio.h>
 
 void init_graphe(graphe *g)
 {
@@ -70,9 +71,10 @@ bool ajouter_arete(graphe *g, arete a)
             g->aretes = realloc(g->aretes, g->aretes_capacite * sizeof(arete));
         }
         g->aretes[nb_aretes(g)] = a;
+        g->nb_aretes++;
         return true;
     }
-
+    //printf("l'arête n'a pas été ajoutée\n");
     return false;
 }
 

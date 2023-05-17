@@ -43,9 +43,6 @@ void ajouter_switch(lan *l, switche sw){
     l->switches[l->nb_switches] = sw;
     l->nb_switches ++;
 
-    ajouter_sommet(&l->g);
-
-
     appareil a;
     a.type = SWITCH;
     a.id = l->g.ordre;
@@ -57,13 +54,46 @@ void ajouter_switch(lan *l, switche sw){
     }
     l->appareils[l->nb_appareils] = a;
     l->nb_appareils ++;
+
+    ajouter_sommet(&l->g);
 }
+
+void ajouter_station(lan *l, station st){
+    if(l->nb_stations == l->stations_capacite){
+        l->stations_capacite *= 2;
+        l->stations = realloc(l->stations, l->stations_capacite * sizeof(station));
+    }
+    l->stations[l->nb_stations][0] = st[0];
+    l->stations[l->nb_stations][1] = st[1];
+    l->stations[l->nb_stations][2] = st[2];
+    l->stations[l->nb_stations][3] = st[3];
+    
+    //l->stations[l->nb_stations] = &st;
+    l->nb_stations ++;
+
+    appareil a;
+    a.type = STATION;
+    a.id = l->g.ordre;
+    a.index = l->nb_stations - 1;    
+
+
+    if(l->nb_appareils == l->appareils_capacite){
+        l->appareils_capacite *= 2;
+        l->appareils = realloc(l->appareils, l->appareils_capacite * sizeof(appareil));
+    }
+    l->appareils[l->nb_appareils] = a;
+    l->nb_appareils ++;
+
+
+    ajouter_sommet(&l->g);
+}
+
+
 
 void ajouter_lien(lan *l, sommet s1, sommet s2){
     arete a;
     a.s1 = s1;
     a.s2 = s2;
-    
     ajouter_arete(&l->g, a);
 }
     

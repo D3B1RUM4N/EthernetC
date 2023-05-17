@@ -1,4 +1,5 @@
 #include "graphe.h"
+#include <stdio.h>
 
 void init_graphe(graphe *g)
 {
@@ -29,10 +30,10 @@ size_t nb_aretes(graphe const *g)
     return g->nb_aretes;
 }
 
-int ajouter_sommet(graphe *g)
+void ajouter_sommet(graphe *g)
 {
+    sommet s = g->ordre;
     g->ordre++;
-    return g->ordre;
 }
 
 // une fonction locale "static arete swap_arete(arete a)" pourra être utile
@@ -44,7 +45,7 @@ bool existe_arete(graphe const *g, arete a)
     // /!\ l'arête (s1,s2) et l'arête (s2,s1) sont équivalentes
 
     for(int i = 0; i<nb_aretes(g); i++){
-        if((a.s1.id == g->aretes[i].s1.id && a.s2.id == g->aretes[i].s2.id) || (a.s1.id == g->aretes[i].s2.id && a.s2.id == g->aretes[i].s1.id)){
+        if((a.s1 == g->aretes[i].s1 && a.s2 == g->aretes[i].s2) || (a.s1 == g->aretes[i].s2 && a.s2 == g->aretes[i].s1)){
             return true;
         }
     }
@@ -64,15 +65,16 @@ bool ajouter_arete(graphe *g, arete a)
     // /!\ on peut par exemple doubler la capacité du tableau actuel.
 
     // retourne true si l'arête a bien été ajoutée, false sinon
-    if(a.s1.id != a.s2.id && !existe_arete(g, a)){
+    if(a.s1 != a.s2 && !existe_arete(g, a)){
         if(nb_aretes(g) + 1 > g->aretes_capacite){
             g->aretes_capacite *= 2;
             g->aretes = realloc(g->aretes, g->aretes_capacite * sizeof(arete));
         }
         g->aretes[nb_aretes(g)] = a;
+        g->nb_aretes++;
         return true;
     }
-
+    //printf("l'arête n'a pas été ajoutée\n");
     return false;
 }
 

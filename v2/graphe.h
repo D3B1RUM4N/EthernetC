@@ -70,6 +70,17 @@ typedef struct lan
     
 }lan;
 
+typedef struct trame
+{
+    size_t preambule[7];
+    size_t sfd[1];
+    size_t dest[6];
+    size_t src[6];
+    size_t type[2];
+    size_t data[1546];
+    size_t fcs[4];
+}trame;
+
 
 
 

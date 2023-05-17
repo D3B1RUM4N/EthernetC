@@ -48,6 +48,8 @@ int main()
 
     afficher(&l.g);
 
+    afficher_Lan(&l);
+
     return EXIT_SUCCESS;
 }
 

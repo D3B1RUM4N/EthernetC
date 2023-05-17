@@ -98,4 +98,11 @@ void ajouter_lien(lan *l, sommet s1, sommet s2){
 }
     
 
+void afficher_Lan(lan *l){
+    printf("LAN:\n");
+    printf("%zu %zu", l->nb_appareils, l->g.nb_aretes);
+
+
+}
+
 

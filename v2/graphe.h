@@ -42,7 +42,7 @@ typedef struct graphe
 typedef char addMac[6];
 //station
 typedef struct station{
-    char ip[15];
+    char ip[4][16];
     addMac mac;
 }station;
 

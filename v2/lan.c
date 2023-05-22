@@ -14,6 +14,7 @@ void init_lan(lan *l)
     l->stations_capacite = 8;
     l->switches_capacite = 8;
     l->appareils_capacite = 16;
+    l->cables_capacite = 16;
     l->nb_stations = 0;
     l->nb_switches = 0;
     l->nb_appareils = 0;
@@ -114,28 +115,37 @@ void afficher_lan(lan *l){
     printf("LAN:\n");
     printf("%zu %zu\n", l->nb_appareils, l->g.nb_aretes);
     //s'occuper des switchs
-    for(size_t i = 0; i < l->nb_switches; i++){
+    for (size_t i = 0; i < l->nb_switches; i++) {
         printf("%u;", SWITCH);
 
-        for(size_t j = 0; j < 6; j++){
-            printf("%hx", l->switches[i].mac[j]);
-            if(j != 5){
+        for (size_t j = 0; j < 6; j++) {
+            printf("%02hhx", l->switches[i].mac[j]);
+            if (j != 5) {
                 printf(":");
             }
         }
         printf(";%zu;%zu\n", l->switches[i].nb_ports, l->switches[i].id);
     }
+
     //s'occuper des stations
     for(size_t i = 0; i < l->nb_stations; i++){
         printf("%u;", STATION);
         for(size_t j = 0; j < 6; j++){
-            printf("%hx", l->stations[i].mac[j]);
+            printf("%02hhx", l->stations[i].mac[j]);
             if(j != 5){
                 printf(":");
             }
         }
-        printf(";%s\n", l->stations[i].ip);
+        //l'ip
+        printf(";");
+        for(size_t k = 0; k < 4; k++){
+            printf("%s", l->stations[i].ip[k]);
+            if(k != 4 - 1){
+                printf(".");
+            }
+        }
     }
+    
     //s'occuper des liens
     for(size_t i = 0; i<l->nb_cables; i++){
         printf("%zu;%zu;%zu\n", l->cables[i].arete.s1, l->cables[i].arete.s2, l->cables[i].poid);

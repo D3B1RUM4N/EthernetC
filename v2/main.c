@@ -144,7 +144,7 @@ int main()
 
 	lecture(&l, "./../texte.txt");
 
-	afficher_lan(&l);
+	afficher_lan_humain(&l);
 
 
 

@@ -110,7 +110,6 @@ void ajouter_lien(lan *l, sommet s1, sommet s2, size_t poid){
     }
 }
     
-
 void afficher_lan(lan *l){
     printf("LAN:\n");
     printf("%zu %zu\n", l->nb_appareils, l->g.nb_aretes);
@@ -149,6 +148,63 @@ void afficher_lan(lan *l){
     //s'occuper des liens
     for(size_t i = 0; i<l->nb_cables; i++){
         printf("%zu;%zu;%zu\n", l->cables[i].arete.s1, l->cables[i].arete.s2, l->cables[i].poid);
+    }
+
+
+}
+void afficher_lan_humain(lan *l){
+    printf("LAN:\n\n");
+    printf("Nombre d'appareils : %zu Nombre d'arrêtes : %zu\n\n", l->nb_appareils, l->g.nb_aretes);
+    //s'occuper des switchs
+    for (size_t i = 0; i < l->nb_switches; i++) {
+        printf("Switch N°%ld :\n",i+1);
+
+        printf("\t- @mac :");
+
+        for (size_t j = 0; j < 6; j++) {
+            printf("%02hhx", l->switches[i].mac[j]);
+            if (j != 5) {
+                printf(":");
+            }
+        }
+        printf("\n\t- Nombre de ports : %zu\n\t- Identifiant : %zu\n\n", l->switches[i].nb_ports, l->switches[i].id);
+    }
+
+    //s'occuper des stations
+    for(size_t i = 0; i < l->nb_stations; i++){
+        printf("Station N°%ld :\n", i+1);
+
+        printf("\t- @mac : ");
+
+        for(size_t j = 0; j < 6; j++){
+            printf("%02hhx", l->stations[i].mac[j]);
+            if(j != 5){
+                printf(":");
+            }
+        }
+        printf("\n\t- Adresse ip : ");
+        //l'ip
+        for(size_t k = 0; k < 4; k++){
+            printf("%s", l->stations[i].ip[k]);
+            if(k != 4 - 1){
+                printf(".");
+            }
+        }
+        printf("\n");
+    }
+    
+    //s'occuper des liens
+    for(size_t i = 0; i<l->nb_cables; i++){
+      //  printf("Liaison de %zu à %zu\n\t- Poids :%zu\n", l->cables[i].arete.s1, l->cables[i].arete.s2, l->cables[i].poid);
+        printf("\nLiaison ");
+        if(l->appareils[l->cables[i].arete.s1].type ==2) {printf("switch %zu", l->appareils[l->cables[i].arete.s1].index); }
+        else{ printf("appareil %zu", l->appareils[l->cables[i].arete.s1].index);}
+        printf(" à ");
+        if(l->appareils[l->cables[i].arete.s2].type == 2) {printf("switch %zu", l->appareils[l->cables[i].arete.s2].index); }
+        else{ printf("appareil %zu", l->appareils[l->cables[i].arete.s2].index);}
+        
+
+        printf(":\n\t- Poids : %zu\n", l->cables[i].poid);
     }
 
 

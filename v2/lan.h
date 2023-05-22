@@ -13,3 +13,4 @@ void ajouter_station(lan *l, station st);
 void ajouter_lien(lan *l, sommet s1, sommet s2, size_t poid);
 
 void afficher_lan(lan *l);
+void afficher_lan_humain(lan *l);

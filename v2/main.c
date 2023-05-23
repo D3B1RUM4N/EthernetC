@@ -15,6 +15,7 @@
 void lecture(lan *l, char* nom_fichier){
     FILE* file = fopen(nom_fichier, "r");
 	char chaine[TAILLE_MAX] = ""; //un tableau de taille 1000
+	size_t nbStation;
 	if(file != NULL)
 	{
 		printf("le fichier est ouvert\n");
@@ -22,12 +23,15 @@ void lecture(lan *l, char* nom_fichier){
 
 
 		size_t cpt = 0;
+		size_t x = 0;
 
 		while(fgets(chaine, TAILLE_MAX, file) != NULL)
 		{
 			//printf("%s", chaine);
 			if(cpt != 0){
-				if(chaine[0] == '2'){
+				if(chaine[0] == '2' && x < nbStation){
+					x++;
+					printf("%ld",x);
 					//printf("switch\n");
 					switche sw;
 					//printf("chaine : %s\n", chaine);
@@ -68,7 +72,8 @@ void lecture(lan *l, char* nom_fichier){
 					//printf("ajout switch\n");
 					ajouter_switch(l, sw);
 
-				}else if(chaine[0] == '1'){
+				}else if(chaine[0] == '1' && x < nbStation){
+					x++;
 					//printf("station\n");
 					//printf("chaine : %s\n", chaine);
 					station st;
@@ -118,6 +123,23 @@ void lecture(lan *l, char* nom_fichier){
 					size_t poid = (size_t)strtoull(strtok(NULL, ";"), NULL, 10);
 					ajouter_lien(l, s1, s2, poid);
 				}
+			}
+
+			else if(cpt == 0)
+			{
+				char *p = chaine;
+				int i = 0;
+				char chaine2[TAILLE_MAX];
+				while(chaine[i] != ' ')
+				{
+					chaine2[i] = chaine[i];
+					//printf("%c\n", chaine[i]);
+					i++;
+									
+					nbStation = atoi(chaine2); //convertie en int 
+					//printf("%ld", nbStation);
+				}
+
 			}
 
 			cpt++;

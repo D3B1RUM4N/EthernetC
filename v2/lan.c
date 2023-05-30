@@ -42,6 +42,7 @@ void ajouter_switch(lan *l, switche sw){
         l->switches_capacite *= 2;
         l->switches = realloc(l->switches, l->switches_capacite * sizeof(switche));
     }
+    sw.commutation = malloc(sw.nb_ports * sizeof(commutation));
 
     l->switches[l->nb_switches] = sw;
     l->nb_switches ++;

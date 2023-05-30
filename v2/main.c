@@ -170,6 +170,9 @@ int main()
 
 	//afficher lan
 
+	//Test de trame
+	test1(&l);
+
 
 
 	return 0;

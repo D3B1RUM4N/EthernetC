@@ -82,6 +82,11 @@ size_t index_arete(graphe const *g, arete a)
 {
     // retourne l'index de l'arête au sein du tableau d'arêtes de g si l'arête a existe dans g,
     // la valeur UNKNOWN_INDEX sinon
+    for(int i = 0; i<nb_aretes(g); i++){
+        if((a.s1 == g->aretes[i].s1 && a.s2 == g->aretes[i].s2) || (a.s1 == g->aretes[i].s2 && a.s2 == g->aretes[i].s1)){
+            return i;
+        }
+    }
 
     return UNKNOWN_INDEX;
 }
@@ -92,6 +97,20 @@ size_t sommets_adjacents(graphe const *g, sommet s, sommet sa[])
     // remplit le tableau sa avec les sommets adjacents de s dans g
     // et retourne le nombre de sommets ainsi stockés
     // (le tableau sa est supposé assez grand pour contenir les sommets adjacents)
+    if(s >= ordre(g)){
+        return 0;
+    }
+    size_t nb = 0;
+    for(size_t i = 0; i<nb_aretes(g); i++){
+        if(g->aretes[i].s1 == s){
+            sa[nb] = g->aretes[i].s2;
+            nb ++;
+        }
+        else if(g->aretes[i].s2 == s){
+            sa[nb] = g->aretes[i].s1;
+            nb ++;
+        }
+    }
 
-    return 0;
+    return nb;
 }

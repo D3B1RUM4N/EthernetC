@@ -168,6 +168,8 @@ int main()
 
 	afficher_lan_humain(&l);
 
+	//afficher lan
+
 
 
 	return 0;

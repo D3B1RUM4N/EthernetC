@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define SWITCH 2
-#define STATION 1
+
 
 void init_lan(lan *l)
 {

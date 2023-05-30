@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define SWITCH 2
+#define STATION 1
+
 
 void init_lan(lan *l);
 void free_lan(lan *l);
@@ -18,3 +21,6 @@ void afficher_trame_humain(lan *l, trame t);
 
 void test1(lan *l);
 void init_trame(trame *t);
+void envoi_trame(graphe const *g, );
+void test2(lan *l, trame *t);
+appareil trouver_appareil_mac(addMac mac);

@@ -127,3 +127,6 @@ bool ajouter_arete(graphe *g, arete a);
 size_t index_arete(graphe const *g, arete a);
 
 size_t sommets_adjacents(graphe const *g, sommet s, sommet sa[]);
+
+
+

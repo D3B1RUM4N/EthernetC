@@ -37,15 +37,23 @@ void free_lan(lan *l)
 }
 
 void ajouter_switch(lan *l, switche sw){
+    //Verifier la capacité de la lan
     if(l->nb_switches == l->switches_capacite){
         l->switches_capacite *= 2;
         l->switches = realloc(l->switches, l->switches_capacite * sizeof(switche));
     }
-    sw.commutation = malloc(sw.nb_ports * sizeof(commutation));
+    //commutation
+    sw.commutations_capacite = 8;
+    sw.commutation = malloc(sw.commutations_capacite * sizeof(commutation));
+    //ports
+    sw.ports = malloc(sw.ports_capacite * sizeof(cable));
+    sw.nb_ports = 0;
 
+    //ajouter le switch
     l->switches[l->nb_switches] = sw;
     l->nb_switches ++;
 
+    //ajouter l'appareil a la lan
     appareil a;
     a.type = SWITCH;
     a.id = l->g.ordre;
@@ -99,16 +107,86 @@ void ajouter_lien(lan *l, sommet s1, sommet s2, size_t poid){
     a.s1 = s1;
     a.s2 = s2;
 
+    size_t swch1 = 0;
+    size_t swch2 = 0;
+
+
+    if(l->appareils[s1].type == SWITCH){
+        if(l->switches[l->appareils[s1].index].nb_ports + 1 == l->switches[l->appareils[s1].index].ports_capacite){
+            printf("plus de port disponible pour le switch n° %zu\n", l->appareils[s1].index);
+            return;
+        }
+        swch1 = 1;
+    }
+    if(l->appareils[s2].type == SWITCH){
+        if(l->switches[l->appareils[s2].index].nb_ports + 1 == l->switches[l->appareils[s2].index].ports_capacite){
+            printf("plus de port disponible pour le switch n° %zu\n", l->appareils[s2].index);
+            return;
+        }
+        swch2 = 1;
+    }
+
     if(ajouter_arete(&l->g, a)){
+        printf("ajouter arete\n");
         if(l->nb_cables == l->cables_capacite){
             l->cables_capacite *= 2;
-            l->cables = realloc(l->appareils, l->appareils_capacite * sizeof(appareil));
+            l->cables = realloc(l->cables, l->cables_capacite * sizeof(cable));
         }
         l->cables[l->nb_cables].poid = poid;
         l->cables[l->nb_cables].arete = a;
         l->nb_cables ++;
+        printf("ajouter cable\n");
+
+
+        //on traite le cas des switch
+        if(swch1 == 1){
+            l->switches[l->appareils[s1].index].ports[l->switches[l->appareils[s1].index].nb_ports] = l->cables[l->nb_cables-1];
+            l->switches[l->appareils[s1].index].nb_ports ++;
+        }
+        if(swch2 == 1){
+            l->switches[l->appareils[s2].index].ports[l->switches[l->appareils[s2].index].nb_ports] = l->cables[l->nb_cables-1];
+            l->switches[l->appareils[s2].index].nb_ports ++;
+        }
     }
 }
+
+
+
+appareil trouver_appareil_mac(lan *l, addMac mac){
+    //parcourire les appareils
+    for(size_t i = 0; i<l->nb_appareils; i++){
+        //verifier le type
+        if(l->appareils[i].type == STATION){
+            size_t same = 1;
+            //comparer l'adresse mac
+            for(size_t j = 0; j<6; j++){
+                if(l->stations[l->appareils[i].index].mac[j] != mac[j]){
+                    same = 0;
+                    j = 6;
+                }
+            }
+            if(same == 1){
+                return l->appareils[i];
+            }
+        }
+    }
+
+    printf("appareil introuvable\n");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 void afficher_lan(lan *l){
     printf("LAN:\n");

@@ -55,7 +55,7 @@ void lecture(lan *l, char* nom_fichier){
 						} else if (i == 2) {
 							// convertir char vers size_t
 							//printf("nb ports : %s\n", p);
-							sw.nb_ports = (size_t)strtoull(p, NULL, 10);
+							sw.ports_capacite = (size_t)strtoull(p, NULL, 10);
 						} else if (i == 3) {
 							sw.id = (size_t)strtoull(p, NULL, 10);
 						}

@@ -16,42 +16,26 @@ void test1(lan *l){
     trame t;
     init_trame(&t);
 
-    for(size_t i = 0; i<0; i++){
-        t->src[i] = l->station[0].mac[i];   
-    }
-    for(size_t i = 0; i<0; i++){
-        t->dest[i] = l->station[1].mac[i]; 
+    for(size_t i = 0; i<6; i++){
+        t.src[i] = l->stations[0].mac[i];   
+        t.dest[i] = l->stations[1].mac[i];
     }
 
-    t->type = 0x0800;
-    t->data = "ceci est un teste";
-    t->fcs = 0xABCD;
+
+    t.type = 0x0800;
+    strcat(t.data, "ceci est un test\0");
+    t.fcs = 0xABCD;
     
     test2(l, &t);
 }
 
 void test2(lan *l, trame *t){
-    //trouver quel appareil est la source
-    appareil src = trouver_appareil_mac(&l, t->src);
-    //ici
-    sommets_adjacents();
+    //trouver quel appareil est la source et destination
+    appareil src = trouver_appareil_mac(l, t->src);
+    appareil dest = trouver_appareil_mac(l, t->dest);
+
+    //parcourire la lan
 }
 
-appareil trouver_appareil_mac(lan *l, addMac mac){
-    for(size_t i = 0; i<l->nb_appareils; i++){
-        if(l->appareils[i].type == STATION){
-            //comparer le tableau
-            size_t same = 1;
-            for(size_t j = 0; j<6; i++){
-                if(l->stations[l->appareils[i].index].mac[i] != mac[i]){
-                    same = 0;
-                    j = 6; 
-                }
-            }
-            if(same == 1){
-                return l->appareils[i];
-            }
-        }
-    }
-}
+
 

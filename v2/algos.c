@@ -8,16 +8,20 @@
 
 size_t degre(graphe const *g, sommet s)
 {
-    int nDeg = 0;
-    for(int j = 0; j<g->nb_aretes; j++){
-        s = g->aretes[j].s1;
-        for(int k = 0; k<g->nb_aretes; k++){
-            if(s == g->aretes[k].s1 || s == g->aretes[k].s2){
-                nDeg ++;
-            }
+    if(s >= ordre(g)){
+        return 0;
+    }
+    size_t nb = 0;
+    for(size_t i = 0; i<nb_aretes(g); i++){
+        if(g->aretes[i].s1 == s){
+            nb ++;
+        }
+        else if(g->aretes[i].s2 == s){
+            nb ++;
         }
     }
-    return 0;
+
+    return nb;
 }
 
 bool est_regulier(graphe const *g)

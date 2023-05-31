@@ -24,3 +24,5 @@ void init_trame(trame *t);
 //void envoi_trame(graphe const *g, );
 void test2(lan *l, trame *t);
 appareil trouver_appareil_mac(lan *l, addMac mac);
+bool parcour_tram(lan *l, trame *t, appareil a, bool *visite);
+

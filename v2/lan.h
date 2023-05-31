@@ -19,10 +19,10 @@ void afficher_lan(lan *l);
 void afficher_lan_humain(lan *l);
 void afficher_trame_humain(lan *l, trame t);
 
-void test1(lan *l);
+void test_tram1(lan *l);
 void init_trame(trame *t);
 //void envoi_trame(graphe const *g, );
-void test2(lan *l, trame *t);
+void envoi_tram(lan *l, trame *t);
 appareil trouver_appareil_mac(lan *l, addMac mac);
 bool parcour_tram(lan *l, trame *t, appareil a, bool *visite);
 

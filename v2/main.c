@@ -171,7 +171,7 @@ int main()
 	//afficher lan
 
 	//Test de trame
-	test1(&l);
+	test_tram1(&l);
 
 
 

@@ -232,7 +232,7 @@ void afficher_lan(lan *l){
 }
 void afficher_lan_humain(lan *l){
     printf("LAN:\n\n");
-    printf("Nombre d'appareils : %zu Nombre d'arrêtes : %zu\n\n", l->nb_appareils, l->g.nb_aretes);
+    printf("Nombre d'appareils : %zu Nombre de cable : %zu\n\n", l->nb_appareils, l->g.nb_aretes);
     //s'occuper des switchs
     for (size_t i = 0; i < l->nb_switches; i++) {
         printf("Switch N°%ld :\n",i+1);
@@ -245,7 +245,7 @@ void afficher_lan_humain(lan *l){
                 printf(":");
             }
         }
-        printf("\n\t- Nombre de ports : %zu\n\t- Identifiant : %zu\n\n", l->switches[i].nb_ports, l->switches[i].id);
+        printf("\n\t- Nombre de ports branchés : %zu\n\t- Identifiant : %zu\n\n", l->switches[i].nb_ports, l->switches[i].id);
     }
 
     //s'occuper des stations

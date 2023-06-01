@@ -44,7 +44,8 @@ void ajouter_switch(lan *l, switche sw){
     }
     //commutation
     sw.commutations_capacite = 8;
-    sw.commutation = malloc(sw.commutations_capacite * sizeof(commutation));
+    sw.commutations = malloc(sw.commutations_capacite * sizeof(commutation));
+    sw.nb_commutations = 0;
     //ports
     sw.ports = malloc(sw.ports_capacite * sizeof(cable));
     sw.nb_ports = 0;
@@ -177,6 +178,27 @@ appareil trouver_appareil_mac(lan *l, addMac mac){
 
 
 
+int sw_commutation(lan *l, switche sw, addMac mac){
+
+    size_t comparaison = 1;
+    printf("nb commutation: %zu\n", sw.nb_commutations);
+    for(size_t i = 0; i<sw.nb_commutations; i++){
+        for(size_t j = 0; j<6; j++){
+            if(sw.commutations[i].mac[j] != mac[j]){
+                comparaison = 0;
+                j = 6;
+            }
+        }
+        if(comparaison == 1){
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+
+
 
 
 
@@ -287,5 +309,7 @@ void afficher_lan_humain(lan *l){
 
 
 }
+
+
 
 

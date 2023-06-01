@@ -67,13 +67,14 @@ typedef struct switche
 {
     size_t nb_ports;
     cable *ports;
-    size_t commutations_capacite;
-    commutation *commutation;
+    size_t nb_commutations;
+    commutation *commutations;
 
     size_t id;
     addMac mac;
     
     size_t ports_capacite;
+    size_t commutations_capacite;
 } switche;
 
 typedef struct lan

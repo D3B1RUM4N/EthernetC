@@ -54,20 +54,27 @@ typedef struct commutation{
     size_t num_port;
 }commutation;
 
-//switch
-typedef struct switche
-{
-    size_t nb_ports;
-    size_t id;
-    addMac mac;
-    commutation *commutation;
-} switche;
-
+//cable
 typedef struct cable
 {
     size_t poid;
     arete arete;
 }cable;
+
+
+//switch
+typedef struct switche
+{
+    size_t nb_ports;
+    cable *ports;
+    size_t commutations_capacite;
+    commutation *commutation;
+
+    size_t id;
+    addMac mac;
+    
+    size_t ports_capacite;
+} switche;
 
 typedef struct lan
 {
@@ -75,7 +82,6 @@ typedef struct lan
     size_t nb_stations;
     switche *switches;
     size_t nb_switches;
-
     appareil *appareils;
     size_t nb_appareils;
 
@@ -99,7 +105,7 @@ typedef struct trame
     addMac dest;
     addMac src;
     uint16_t type;
-    char* data[64];
+    char data[64];
     uint64_t fcs;
 }trame;
 

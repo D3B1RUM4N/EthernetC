@@ -114,39 +114,35 @@ bool parcour_tram_commutation(lan *l, trame *t, appareil a, bool *visite){
     //verification de la table de commutation
     if(a.type == SWITCH){
         //verif de la source dans la table de commutation
-        if(sw_commutation(l, l->switches[a.index], t->src) > 0){
-            printf("est dans la table sur le port : %d\n", sw_commutation(l, l->switches[a.index], t->src));
-        }else{
-            printf("n'est pas dans la table\n");
+        if(chercher_commutation(l, l->switches[a.index], t->src) < 0){
+            printf("source introuvable dans la table de commutation\n");
+            ajouter_commutation(l, l->switches[a.index], t->src);
         }
-
-
-        for(size_t j = 0; j<l->switches[a.index].nb_ports; j++){
-            size_t comparaison = 1;
-            for(size_t k = 0; k<6; k++){
-                if(t->dest[k] != l->switches[a.index].commutations[j].mac[k]){
-                    comparaison = 0;
-                    k = 6;
-                }
-            }
-            if(comparaison == 1){
-                if(l->switches[a.index].ports[l->switches[a.index].commutations[j].num_port].arete.s1 == a.id){
-                    if(parcour_tram_commutation(l, t, l->appareils[l->switches[a.index].ports[l->switches[a.index].commutations[j].num_port].arete.s2], visite)){
-                        printf("trouver dans table de commutation\n");
-                        return true;
-                    }
-                }else{
-                    if(parcour_tram_commutation(l, t, l->appareils[l->switches[a.index].ports[l->switches[a.index].commutations[j].num_port].arete.s1], visite)){
-                        printf("trouver dans table de commutation\n");
-                        return true;
+        if(chercher_commutation(l, l->switches[a.index], t->dest) > 0){
+            for(size_t j = 0; j<l->switches[a.index].nb_ports; j++){
+                size_t comparaison = 1;
+                for(size_t k = 0; k<6; k++){
+                    if(t->dest[k] != l->switches[a.index].commutations[j].mac[k]){
+                        comparaison = 0;
+                        k = 6;
                     }
                 }
+                if(comparaison == 1){
+                    if(l->switches[a.index].ports[l->switches[a.index].commutations[j].num_port].arete.s1 == a.id){
+                        if(parcour_tram_commutation(l, t, l->appareils[l->switches[a.index].ports[l->switches[a.index].commutations[j].num_port].arete.s2], visite)){
+                            printf("trouver dans table de commutation\n");
+                            return true;
+                        }
+                    }else{
+                        if(parcour_tram_commutation(l, t, l->appareils[l->switches[a.index].ports[l->switches[a.index].commutations[j].num_port].arete.s1], visite)){
+                            printf("trouver dans table de commutation\n");
+                            return true;
+                        }
+                    }
+                }
             }
-        }
+        }       
     }
-
-
-    
 
     //faire la methode tableau de bool
     for(size_t i = 0; i<degre(&l->g, a.id); i++){

@@ -26,4 +26,4 @@ void envoi_tram(lan *l, trame *t);
 appareil trouver_appareil_mac(lan *l, addMac mac);
 bool parcour_tram(lan *l, trame *t, appareil a, bool *visite);
 bool parcour_tram_commutation(lan *l, trame *t, appareil a, bool *visite);
-int sw_commutation(lan *l, switche sw, addMac mac);
+int chercher_commutation(lan *l, switche sw, addMac mac);

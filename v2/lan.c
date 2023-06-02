@@ -153,6 +153,8 @@ void ajouter_lien(lan *l, sommet s1, sommet s2, size_t poid){
 
 
 
+
+
 appareil trouver_appareil_mac(lan *l, addMac mac){
     //parcourire les appareils
     for(size_t i = 0; i<l->nb_appareils; i++){
@@ -178,7 +180,7 @@ appareil trouver_appareil_mac(lan *l, addMac mac){
 
 
 
-int sw_commutation(lan *l, switche sw, addMac mac){
+int chercher_commutation(lan *l, switche sw, addMac mac){
 
     size_t comparaison = 1;
     printf("nb commutation: %zu\n", sw.nb_commutations);
@@ -194,6 +196,34 @@ int sw_commutation(lan *l, switche sw, addMac mac){
         }
     }
     return -1;
+}
+
+void ajouter_commutation(lan *l, switche sw, addMac mac){
+    // je veux trouvé de quel port cette adresse mac est arrivé
+    sommet sa[degre(&l->g, a.id)];
+    for(size_t i = 0; i<sommets_adjacents(&l->g, trouver_appareil_mac(l, sw.mac).id, sa); i++){
+        if()
+        if(sont_connectes(&l->g, trouver_appareil_mac(l, sa[i].mac).id, trouver_appareil_mac(l, sw.mac).id)){
+            // se port mene vers l'adresse voulue 
+
+        }
+    }
+
+}
+
+bool compare_mac(addMac mac1, addMac, mac2){
+    size_t comparaison = 1;
+    for(size_t k = 0; k<6; k++){
+        if(t->dest[k] != l->switches[a.index].commutations[j].mac[k]){
+            comparaison = 0;
+            k = 6;
+        }
+    }
+    if(comparaison == 1){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 

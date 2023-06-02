@@ -26,3 +26,6 @@ void envoi_tram(lan *l, trame *t);
 appareil trouver_appareil_mac(lan *l, addMac mac);
 bool parcour_tram(lan *l, trame *t, appareil a, bool *visite);
 
+void creation_trame(trame *t, lan *l);
+void affichage_trame(trame *t);
+void affichage_menu();

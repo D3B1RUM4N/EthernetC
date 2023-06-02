@@ -2,6 +2,7 @@
 #include "graphe.h"
 #include "algos.h"
 #include "lan.h"
+#include "menu.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -159,7 +160,7 @@ void lecture(lan *l, char* nom_fichier){
 
 int main()
 {
-	//partie graphe
+	/*//partie graphe
     lan l;
     printf("init lan\n");
     init_lan(&l);
@@ -171,9 +172,9 @@ int main()
 	//afficher lan
 
 	//Test de trame
-	test_tram1(&l);
+	test_tram1(&l);*/
 
-
+	affichage_menu();
 
 	return 0;
 }

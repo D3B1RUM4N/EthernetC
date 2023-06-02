@@ -2,7 +2,6 @@
 #include "graphe.h"
 #include "algos.h"
 #include "lan.h"
-#include "menu.h"
 
 #include <stdlib.h>
 #include <string.h>

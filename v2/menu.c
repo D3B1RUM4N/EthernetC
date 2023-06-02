@@ -23,15 +23,27 @@ void creation_trame(trame *t, lan *l)
     
 	//rempli les addresse mac de la trame 
     for(size_t i = 0; i<6; i++){
-        t->src[i] = l->switches[dep].mac[i];   
-        t->dest[i] = l->switches[dest].mac[i];
+        t->src[i] = l->stations[dep].mac[i];   
+        t->dest[i] = l->stations[dest].mac[i];
     }
 
 	//rempli le reste de la trame 
     init_trame(t);
     t->type = 0x0800;
     t->fcs = 0xABCD;
-	memcpy(t->data, "ceci est un teste", 64);
+	memcpy(t->data, "ceci est un teste de ", 64);
+}
+
+void affichebin(size_t n)
+{
+	size_t bit = 0 ;
+	size_t mask = 1 ;
+	for (int i = 0 ; i< 32 ; ++i)
+	{
+		bit = (n & mask) >> i ;
+		printf("%d", bit);
+		mask <<= 1 ;
+	}    
 }
 
 void affichage_trame(trame *t)
@@ -39,20 +51,7 @@ void affichage_trame(trame *t)
 	printf("\nVoici votre trame : \n");
     printf("Preambule\tSFD\tSource\t\t\tDestination\t\tType\tDonnée\t\t\tFCS\n");
 
-    /*for(size_t i = 0; i < sizeof(t->type); i++)
-    {
-        char byte = ((char*)&t->type)[i];
-        for(size_t j = 0; j < 8; j--)
-        {
-            char bit = (byte >> j) & 1;
-            printf("%hhd", bit);
-        }
-        printf(" ");
-    }
-    printf("\n");*/
-
-
-    printf("%02hhx \t%02hhx\t", t->preambule, t->sfd);
+    printf("\n%d \t%02hhx\t", t->preambule, t->sfd);
 
     for (size_t j = 0; j < 6; j++) {
         printf("%02hhx", t->dest[j]);
@@ -89,9 +88,10 @@ void affichage_menu()
     afficher_lan_humain(&l);
 
 	//demande quelle action on veut faire 
-	printf("\n\n\nQuelle action voulez vous faire : \n");
+	printf("\n\nQuelle action voulez vous faire : \n");
 	printf("\t1 - Sortir du programme\n");
 	printf("\t2 - Crée un nouvelle tram\n");
+	printf("\t3 - Teste d'une trame\n");
 	scanf("%d", &reponse);
 
 	while(reponse != 1)
@@ -104,19 +104,26 @@ void affichage_menu()
 			affichage_trame(&t);
 		}
 		
+        if(reponse == 3)
+		{
+			test_tram1(&l);
+		}
+
 		else
 		{
 			//si on c'est trompé d'action
-			printf("\n\n\nVous vous etes trompé d'action, veuillez recommencer : \n");
+			printf("\n\nVous vous etes trompé d'action, veuillez recommencer : \n");
 			printf("\t1 - Sortir du programme\n");
 			printf("\t2 - Crée un nouvelle tram\n");
+			printf("\t3 - Teste d'une trame\n");
 			scanf("%d", &reponse);
 		}
 
 		//demande quelle action on veut faire 
-		printf("\n\n\nQuelle action voulez vous faire : \n");
+		printf("\n\nQuelle action voulez vous faire : \n");
 		printf("\t1 - Sortir du programme\n");
 		printf("\t2 - Crée un nouvelle tram\n");
+	    printf("\t3 - Teste d'une trame\n");
 		scanf("%d", &reponse);
 	}
 }

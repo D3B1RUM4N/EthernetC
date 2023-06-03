@@ -14,12 +14,21 @@ void creation_trame(trame *t, lan *l)
     size_t dest = 0;    
 
 	//on demanded a l'utilisateur d'entrer les donné necessaire pour faire la trame
-    printf("De quelle destination voulez vous partir ? (rentrer le numeros de la station) : ");
+    printf("De quelle destination voulez vous partir ? (rentrer le numeros de la station, maximum :%d) : ", l->nb_stations);
     scanf("%d", &dep);
-    printf("Quelle est vottre station d'arriver ? (rentrer le numeros de la station) : ");
+	while(dep > l->nb_stations)
+	{
+		printf("Vous vous etes trompé, vous avez mis une station inexistante ! (rentrer le numeros de la station, maximum :%d) : ", l->nb_stations);
+		scanf("%d", &dep);
+	}
+
+    printf("Quelle est vottre station d'arriver ? (rentrer le numeros de la station, maximum :%d) : ", l->nb_stations);
     scanf("%d", &dest);
-    //printf("quel message voulez vou passé ? : ");
-    //scanf("%s", data);
+	while(dest > l->nb_stations)
+	{
+		printf("Vous vous etes trompé, vous avez mis une station inexistante ! (rentrer le numeros de la station, maximum :%d) : ", l->nb_stations);
+		scanf("%d", &dest);
+	}
     
 	//rempli les addresse mac de la trame 
     for(size_t i = 0; i<6; i++){
@@ -31,7 +40,7 @@ void creation_trame(trame *t, lan *l)
     init_trame(t);
     t->type = 0x0800;
     t->fcs = 0xABCD;
-	memcpy(t->data, "ceci est un teste de ", 64);
+	memcpy(t->data, "Voici l'affichage d'un trame", 64);
 }
 
 void affichebin(size_t n)
@@ -46,12 +55,47 @@ void affichebin(size_t n)
 	}    
 }
 
+void afficherCodeBinaireSt(size_t nombre) {
+    // Rechercher le bit le plus significatif non nul
+    int nb = sizeof(size_t) * 8 - 1;
+    while (((nombre >> nb) & 1) == 0) {
+        nb--;
+    }
+    // Parcourir chaque bit à partir du bit le plus significatif non nul et les afficher en ordre inverse
+    for (int i = nb; i >= 0; i--) {
+        // Vérifier si le bit à la position i est à 1 ou à 0
+        int bit = (nombre >> i) & 1;
+
+        // Afficher le bit
+        printf("%d", bit);
+    } 
+}
+
+void afficherCodeBinaireUint(uint64_t nombre) {
+    // Rechercher le bit le plus significatif non nul
+    int nb = sizeof(uint64_t) * 8 - 1;
+    while (((nombre >> nb) & 1) == 0) {
+        nb--;
+    }
+    // Parcourir chaque bit à partir du bit le plus significatif non nul et les afficher en ordre inverse
+    for (int i = nb; i >= 0; i--) {
+        // Vérifier si le bit à la position i est à 1 ou à 0
+        int bit = (nombre >> i) & 1;
+
+        // Afficher le bit
+        printf("%d", bit);
+    }
+}
+
 void affichage_trame(trame *t)
 {
 	printf("\nVoici votre trame : \n");
-    printf("Preambule\tSFD\tSource\t\t\tDestination\t\tType\tDonnée\t\t\tFCS\n");
-
-    printf("\n%d \t%02hhx\t", t->preambule, t->sfd);
+    printf("Preambule\t\t\tSFD\t\tSource\t\t\tDestination\t\tType\t\tDonnée\t\t\t\tFCS\n");
+	
+	afficherCodeBinaireUint(t->preambule);
+	printf("\t");
+	afficherCodeBinaireSt(t->sfd);
+	printf("\t");
 
     for (size_t j = 0; j < 6; j++) {
         printf("%02hhx", t->dest[j]);
@@ -66,9 +110,21 @@ void affichage_trame(trame *t)
             printf(":");
         }
     }
+	printf("\t");
 
-    printf("\t%d \t%s \t%02hhx\n", t->type, t->data, t->fcs);
+	afficherCodeBinaireUint(t->type);
+    printf("\t%s\t", t->data);
+	afficherCodeBinaireUint(t->fcs);
 }
+
+void affichage_action()
+{
+	printf("\n\nQuelle action voulez vous faire : \n");
+	printf("\t1 - Sortir du programme\n");
+	printf("\t2 - Crée un nouvelle tram\n");
+	printf("\t3 - Teste d'une trame\n");
+}
+
 
 void affichage_menu()
 {
@@ -88,10 +144,7 @@ void affichage_menu()
     afficher_lan_humain(&l);
 
 	//demande quelle action on veut faire 
-	printf("\n\nQuelle action voulez vous faire : \n");
-	printf("\t1 - Sortir du programme\n");
-	printf("\t2 - Crée un nouvelle tram\n");
-	printf("\t3 - Teste d'une trame\n");
+	affichage_action();
 	scanf("%d", &reponse);
 
 	while(reponse != 1)
@@ -104,7 +157,7 @@ void affichage_menu()
 			affichage_trame(&t);
 		}
 		
-        if(reponse == 3)
+        else if(reponse == 3)
 		{
 			test_tram1(&l);
 		}
@@ -112,18 +165,13 @@ void affichage_menu()
 		else
 		{
 			//si on c'est trompé d'action
-			printf("\n\nVous vous etes trompé d'action, veuillez recommencer : \n");
-			printf("\t1 - Sortir du programme\n");
-			printf("\t2 - Crée un nouvelle tram\n");
-			printf("\t3 - Teste d'une trame\n");
+			printf("\n\nVous vosu etes trompé, il n'y a pas d'action pour ce nombre, veuillez réesayer.");
+			affichage_action();
 			scanf("%d", &reponse);
 		}
 
 		//demande quelle action on veut faire 
-		printf("\n\nQuelle action voulez vous faire : \n");
-		printf("\t1 - Sortir du programme\n");
-		printf("\t2 - Crée un nouvelle tram\n");
-	    printf("\t3 - Teste d'une trame\n");
+		affichage_action();
 		scanf("%d", &reponse);
 	}
 }

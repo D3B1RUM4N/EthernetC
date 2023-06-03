@@ -159,7 +159,7 @@ void lecture(lan *l, char* nom_fichier){
 
 int main()
 {
-	//partie graphe
+	/*partie graphe
     lan l;
     printf("init lan\n");
     init_lan(&l);
@@ -174,9 +174,10 @@ int main()
 	test_tram1(&l);
 
 	//affichage des commutation
-	afficher_commutation_switches(&l);
+	afficher_commutation_switches(&l);*/
 
 
+	affichage_menu();
 
 	return 0;
 }

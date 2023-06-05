@@ -190,7 +190,6 @@ bool parcour_tram_commutation(lan *l, trame *t, appareil a, cable *c, size_t *de
         // on verifie la table de commutation
         if(chercher_commutation(l, l->switches[a.index], t->dest) >= 0 && *destruct > 1){
             printf("destinataire trouvé\n");
-            printf("sa : %zu", sa[l->switches[a.index].commutations[chercher_commutation(l, l->switches[a.index], t->dest)].num_port]);
             if(parcour_tram_commutation(l, t, l->appareils[sa[l->switches[a.index].commutations[chercher_commutation(l, l->switches[a.index], t->dest)].num_port]], &l->switches[a.index].ports[l->switches[a.index].commutations[chercher_commutation(l, l->switches[a.index], t->dest)].num_port], destruct)){
                 return true;
             }

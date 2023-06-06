@@ -12,23 +12,25 @@ void creation_trame(trame *t, lan *l)
 	//à regarde pour fair un malhoc, mais il faut voir comment gere la taille avant de rentrer la chaine
     char data[64];
     size_t dep = 0;
-    size_t dest = 0;    
+    size_t dest = 0; 
+
+    size_t poubelle;   
 
 	//on demanded a l'utilisateur d'entrer les donné necessaire pour faire la trame
     printf("De quelle destination voulez vous partir ? (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations);
-    scanf("%zu", &dep);
+    poubelle = scanf("%zu", &dep);
 	while(dep > l->nb_stations)
 	{
 		printf("Vous vous etes trompé, vous avez mis une station inexistante ! (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations);
-		scanf("%zu", &dep);
+		poubelle = scanf("%zu", &dep);
 	}
 
     printf("Quelle est vottre station d'arriver ? (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations);
-    scanf("%zu", &dest);
+    poubelle = scanf("%zu", &dest);
 	while(dest > l->nb_stations)
 	{
 		printf("Vous vous etes trompé, vous avez mis une station inexistante ! (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations);
-		scanf("%zu", &dest);
+		poubelle = scanf("%zu", &dest);
 	}
     
 	//rempli les addresse mac de la trame 
@@ -61,11 +63,11 @@ void test_tram1(lan *l){
 
     for(size_t i = 0; i<6; i++){
         t1.src[i] = l->stations[0].mac[i];   
-        t1.dest[i] = l->stations[1].mac[i];
+        t1.dest[i] = l->stations[7].mac[i];
     }
 
     for(size_t i = 0; i<6; i++){
-        t2.src[i] = l->stations[1].mac[i];   
+        t2.src[i] = l->stations[7].mac[i];   
         t2.dest[i] = l->stations[0].mac[i];
     }
 
@@ -90,11 +92,13 @@ void envoi_tram(lan *l, trame *t){
     appareil src = trouver_appareil_mac(l, t->src);
 
     appareil dest = trouver_appareil_mac(l, t->dest);
+    
     if(sont_connectes(&l->g, src.id, dest.id)){
         printf("les appareils sont connectés\n");
     }else{
         printf("les appareils ne sont pas connectés\n");
     }
+
     //1er cable
     sommet sa[degre(&l->g, src.id)];
     if(sommets_adjacents(&l->g, src.id, sa) == 0){
@@ -160,21 +164,21 @@ bool parcour_tram_commutation(lan *l, trame *t, appareil a, cable *c, size_t *de
     if(*destruct <= 1){
         return false;
     }
-    printf("\ndestruct : %zu\n", *destruct);
+    //printf("\ndestruct : %zu\n", *destruct);
     (*destruct) --;
 
 
-    printf("\tappareil actuel : ");
+    printf("appareil actuel : \n");
     if(a.type == SWITCH){
-        printf("switch n° %zu\n",a.index);
+        printf("\tswitch n° %zu\t",a.index);
     }else{
-        printf("Station n° : %zu\n", a.index);
+        printf("\tStation n° : %zu\t", a.index);
     }
 
     size_t deg = degre(&l->g, a.id);
 
     sommet sa[deg];
-    printf("nb voisin : %zu\n",sommets_adjacents(&l->g, a.id, sa));
+    printf("nb cables : %zu\n",sommets_adjacents(&l->g, a.id, sa));
 
     if(a.type == SWITCH){
         if(chercher_commutation(l, l->switches[a.index], t->src) == -1){
@@ -199,7 +203,6 @@ bool parcour_tram_commutation(lan *l, trame *t, appareil a, cable *c, size_t *de
         // pas dans la table, on broadcast
         else if(*destruct > 1){
             for(size_t i = 0; i<deg; i++){
-                printf("type : %zu,    id : %zu\n", l->appareils[sa[i]].type, l->appareils[sa[i]].id);
                 cable tempC = l->cables[index_arete(&l->g, (arete){a.id, sa[i]})];
                 if((tempC.arete.s1 != c->arete.s1 || tempC.arete.s2 != c->arete.s2) && parcour_tram_commutation(l, t, l->appareils[sa[i]], &tempC, destruct)){
                     return true;
@@ -212,13 +215,23 @@ bool parcour_tram_commutation(lan *l, trame *t, appareil a, cable *c, size_t *de
     // si c'est station
     
     else{
+        // on affiche les infos de la station
+        printf("\t\tmac : ");
+        for(size_t i = 0; i<6; i++){
+            printf("%02hhx", l->stations[a.index].mac[i]);
+            if(i<5){
+                printf(":");
+            }
+        }
+        printf("\n");
+
         if(compare_mac(l->stations[a.index].mac, t->dest)){
-            printf("Trame reçue et lue : %s\n", t->data);
+            printf("\t\tTrame reçue et lue : %s\n", t->data);
         }else if(compare_mac(l->stations[a.index].mac, t->src)){
-            printf("Appareil source !\n");
+            printf("\t\tAppareil source !\n");
             parcour_tram_commutation(l, t, l->appareils[sa[0]], &l->cables[index_arete(&l->g, (arete){a.id, sa[0]})], destruct);
         }else{
-            printf("Trame reçue et ignorée\n");
+            printf("\t\tTrame reçue et ignorée\n");
         }
     }
 

@@ -30,12 +30,15 @@ void affichage_menu()
     char fichier[64];
 	int reponse = 0;
 
+	//les scanf font un warning si on utilise pas leurs resultat
+	size_t poubelle;
+
 	//initialisationde et affichage de la lan
     init_lan(&l);
     printf("Bonjour, \nVoici le projet de SAE 2.3 fait par Elies, Elea et Gaël\n");
-	printf("ceci est actuellement la version 3.1 !\n\n");
+	printf("ceci est actuellement la version 451 !\n\n");
     printf("Pour commencer, veuillez rentrer le chemin du fichier de configuration de votre LAN : ");
-    scanf("%s", fichier);
+    poubelle = scanf("%s", fichier);
 	//pour les devs
 	if(strcmp(fichier, "9") == 0){
 		lecture(&l, "../texte.txt");
@@ -48,7 +51,7 @@ void affichage_menu()
 
 	//demande quelle action on veut faire 
 	affichage_action();
-	scanf("%d", &reponse);
+	poubelle = scanf("%d", &reponse);
 
 	while(reponse != 1)
 	{
@@ -73,26 +76,35 @@ void affichage_menu()
 		}
 
 		else if(reponse == 4){
-			printf("Quel trame voulez vous afficher : (de 0 a %zu)", nb_trames-1);
-			size_t tr;
-			scanf("%zu", &tr);
-			if(tr < nb_trames){
-				affichage_trame(&trames[tr]);
+			if(nb_trames == 0){
+				printf("aucune trame crée\n");
 			}else{
-				printf("nombre trop elevé\n");
+				printf("Quel trame voulez vous afficher : (de 0 a %zu)", nb_trames-1);
+				size_t tr;
+				poubelle = scanf("%zu", &tr);
+				if(tr < nb_trames){
+					affichage_trame(&trames[tr]);
+				}else{
+					printf("nombre trop elevé\n");
+				}
 			}
+			
 		}
 		
         else if(reponse == 5)
 		{
-			printf("Quel trame voulez vous envoyer : (de 0 a %zu)", nb_trames-1);
-			size_t tr;
-			scanf("%zu", &tr);
-			if(tr < nb_trames){
-				//test_tram1(&l);
-				envoi_tram(&l, &trames[tr]);
+			if(nb_trames == 0){
+				printf("aucune trame crée\n");
 			}else{
-				printf("nombre trop elevé\n");
+							printf("Quel trame voulez vous envoyer : (de 0 a %zu)", nb_trames-1);
+				size_t tr;
+				poubelle = scanf("%zu", &tr);
+				if(tr < nb_trames){
+					//test_tram1(&l);
+					envoi_tram(&l, &trames[tr]);
+				}else{
+					printf("nombre trop elevé\n");
+				}
 			}
 		}
 
@@ -105,11 +117,11 @@ void affichage_menu()
 			//si on c'est trompé d'action
 			printf("\n\nVous vosu etes trompé, il n'y a pas d'action pour ce nombre, veuillez réesayer.");
 			affichage_action();
-			scanf("%d", &reponse);
+			poubelle = scanf("%d", &reponse);
 		}
 
 		//demande quelle action on veut faire 
 		affichage_action();
-		scanf("%d", &reponse);
+		poubelle = scanf("%d", &reponse);
 	}
 }

@@ -93,11 +93,11 @@ void envoi_tram(lan *l, trame *t){
 
     appareil dest = trouver_appareil_mac(l, t->dest);
     
-    if(sont_connectes(&l->g, src.id, dest.id)){
+    /*if(sont_connectes(&l->g, src.id, dest.id)){
         printf("les appareils sont connectés\n");
     }else{
         printf("les appareils ne sont pas connectés\n");
-    }
+    }*/
 
     //1er cable
     sommet sa[degre(&l->g, src.id)];

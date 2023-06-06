@@ -17,6 +17,23 @@ void creation_trame(trame *t, lan *l)
     size_t poubelle;   
 
 	//on demanded a l'utilisateur d'entrer les donné necessaire pour faire la trame
+<<<<<<< v4/trame.c
+    printf("%d nb station\n", l->nb_stations);
+    printf("De quelle destination voulez vous partir ? (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations -1);
+    scanf("%zu", &dep);
+	while(dep >= l->nb_stations)
+	{
+		printf("Vous vous etes trompé, vous avez mis une station inexistante ! (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations-1);
+		scanf("%zu", &dep);
+	}
+
+    printf("Quelle est vottre station d'arriver ? (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations-1);
+    scanf("%zu", &dest);
+	while(dest >= l->nb_stations)
+	{
+		printf("Vous vous etes trompé, vous avez mis une station inexistante ! (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations-1);
+		scanf("%zu", &dest);
+=======
     printf("De quelle destination voulez vous partir ? (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations);
     poubelle = scanf("%zu", &dep);
 	while(dep > l->nb_stations)
@@ -31,6 +48,7 @@ void creation_trame(trame *t, lan *l)
 	{
 		printf("Vous vous etes trompé, vous avez mis une station inexistante ! (rentrer le numeros de la station, maximum :%zu) : ", l->nb_stations);
 		poubelle = scanf("%zu", &dest);
+>>>>>>> v4/trame.c
 	}
     
 	//rempli les addresse mac de la trame 
